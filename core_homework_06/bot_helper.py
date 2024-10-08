@@ -51,6 +51,8 @@ class Record:
                 phone_to_edit = p
                 break
         if phone_to_edit:
+            if old_phone == new_phone:
+                raise ValueError("New phone number cannot be the same as the old one.")
             phone_to_edit.value = new_phone
         else:
             raise ValueError(f"Phone {old_phone} not found.")
@@ -74,9 +76,19 @@ class AddressBook(UserDict):
     def delete(self, name):
         if name in self.data:
             del self.data[name]
-            print(f"Record '{name}' deleted successfully.")
         else:
-            raise KeyError(f"Record with name '{name}' not found.")  
+            raise KeyError(f"Record with name '{name}' not found.")
+    
+    def __str__(self):
+        if not self.data:
+            return "Address Book is empty."
+
+        result = []
+        for record in self.data.values():
+            phones = ', '.join(phone.value for phone in record.phones) if record.phones else "No phones"
+            result.append(f"Name: {record.name.value}, Phones: {phones}")
+        
+        return "\n".join(result)
     
 
 # book = AddressBook()
