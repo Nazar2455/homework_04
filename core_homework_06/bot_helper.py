@@ -53,6 +53,10 @@ class Record:
         if phone_to_edit:
             if old_phone == new_phone:
                 raise ValueError("New phone number cannot be the same as the old one.")
+            if not new_phone.isdigit():
+                raise ValueError(f"Phone number must contain only digits. Provided: {new_phone}")
+            if len(new_phone) != 10:
+                raise ValueError(f"Phone number must contain exactly 10 digits. Provided: {new_phone}")
             phone_to_edit.value = new_phone
         else:
             raise ValueError(f"Phone {old_phone} not found.")
